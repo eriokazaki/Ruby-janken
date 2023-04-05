@@ -1,78 +1,86 @@
-puts "じゃんけん・・・" 
+puts "じゃんけん..."
 
-def janken
-  puts "0(グー), 1(チョキ), 2(パー)、3(戦わない)"
-  player_hand = gets.to_i    
-  program_hand = rand(3) #0以上3未満(0,1,2)からランダムに選択される。
+class Janken
+  attr_accessor :program_hand, :player_hand
+  
+  def initialize(program_hand, player_hand)
+    @program_hand = program_hand
+    @player_hand = player_hand
+  end
+  
+  def janken
+    puts "0(グー)1(チョキ)2(パー)3(戦わない)"
+    @player_hand = gets.to_i 
+    @program_hand = rand(3)
 
-  if player_hand == 3
-    puts "じゃんけんが放棄されました。ゲームを終了します。"
-    puts "---------------------------------------------------"
-    exit
+    if player_hand == 3
+      puts "じゃんけんが放棄されました。ゲームを終了します。"
+      puts "--------------------------------"
+      exit
+    end
+
+    jankens = ["グー", "チョキ", "パー"]
+    puts "ホイ!"
+    puts "--------------------------------"
+    puts "あなた: #{jankens[@player_hand]}を出しました"
+    puts "相手  : #{jankens[@program_hand]}を出しました"
+    puts "--------------------------------"
+    
+    if @program_hand == @player_hand
+      puts "あいこで"
+      return true
+    
+    elsif @player_hand == 0 && @program_hand == 1 ||
+      @player_hand == 1 && @program_hand == 2 ||
+      @player_hand == 2 && @program_hand == 0
+      puts "あなたの勝ちです！"
+      @winner = "player"
+      acchimuite_hoi
+    
+    elsif @program_hand == 0 && @player_hand == 1 ||
+      @program_hand == 1 && @player_hand == 2 ||
+      @program_hand == 2 && @player_hand == 0
+      puts "あなたの負けです！"
+      @winner = "program"
+      acchimuite_hoi  
+    else
+      puts "ゲームオーバー！"
+      exit
+    end
   end
 
-  puts "ホイ！"
-  puts "---------------------------------------------------"
-
-  jankens = ["グー", "チョキ", "パー"]  
-
-  puts "あなた：#{jankens[player_hand]}を出しました"
-  puts "相手：#{jankens[program_hand]}を出しました"
-  puts "---------------------------------------------------"
-
-    #if文で条件分岐
-  if player_hand == program_hand
-    puts "あいこで・・・"
-    return true
-  elsif (player_hand == 0 && program_hand == 1) || 
-        (player_hand == 1 && program_hand == 2) ||                     
-        (player_hand == 2 && program_hand == 0)
-    puts "あなたの勝ちです！"       
-    puts "---------------------------------------------------"
-    @janken_result = 1
-    acchimuite        
-  return false 
-  else 
-    puts "あなたの負けです。"
-    puts "---------------------------------------------------"
-    @janken_result = 2
-    acchimuite
+  
+  # あっち向いてホイ
+  def acchimuite_hoi
+    puts "あっち向いて〜"
+    puts "0(上) 1(下) 2(左) 3(右)"
+    @player_hand = gets.to_i
+    @program_hand = rand(4)
+    
+    directions = ["上", "下", "左", "右"]
+    puts "ホイ!"
+    puts "--------------------------------"
+    puts "あなた: #{directions[@player_hand]}"
+    puts "相手  : #{directions[@program_hand]}"
+    puts "--------------------------------"
+    
+    if @program_hand == @player_hand && @winner == "program"
+      puts "あなたの負けです！"
+      return false
+    
+    elsif @program_hand == @player_hand && @winner == "player"
+      puts "あなたの勝ちです！"
+      return false
+    
+    else
+      puts "じゃんけん・・・"
+      janken
+    end
   end
 end
 
-def acchimuite 
-  puts "あっち向いて〜"
-  puts "0(上), 1(下), 2(右)、3(左)"
-  player_hand = gets.to_i    
-  program_hand = rand(4)
-  
-  acchimuite_direction = ["上", "下", "右", "左"]
-  
-  puts "ホイ！"
-  puts "---------------------------------------------------"
-
-  puts "あなた：#{acchimuite_direction[player_hand]}"
-  puts "相手：#{acchimuite_direction[program_hand]}"
-  puts "---------------------------------------------------"
-  
-  if @janken_result == 1 && player_hand == program_hand
-    puts "あなたの勝ちです！"
-    exit
-  elsif @janken_result == 2 && player_hand == program_hand
-    puts "あなたの負けです！"     
-    puts "---------------------------------------------------"     
-    exit
-  else 
-    puts "じゃんけん・・・"
-    next_game = true
-    janken
-  end
-end
-
-next_game = true #あいこの時の処理
-
+next_game = true
 while next_game
-    next_game = janken
-end 
-
-
+  game = Janken.new(@program_hand, @player_hand)
+  next_game = game.janken
+end
