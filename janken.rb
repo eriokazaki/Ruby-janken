@@ -57,7 +57,7 @@ def acchimuite
   
   if @janken_result == 1 && player_hand == program_hand
     puts "あなたの勝ちです！"
-    return false
+    exit
   elsif @janken_result == 2 && player_hand == program_hand
     puts "あなたの負けです！"     
     puts "---------------------------------------------------"     
@@ -74,5 +74,5 @@ while next_game
     next_game = janken
 end 
 
-janken
+janken 
 
