@@ -46,13 +46,13 @@ def acchimuite
   player_hand = gets.to_i    
   program_hand = rand(4)
   
-  acchimuite_way = ["上", "下", "右", "左"]
+  acchimuite_direction = ["上", "下", "右", "左"]
   
   puts "ホイ！"
   puts "---------------------------------------------------"
 
-  puts "あなた：#{acchimuite_way[player_hand]}"
-  puts "相手：#{acchimuite_way[program_hand]}"
+  puts "あなた：#{acchimuite_direction[player_hand]}"
+  puts "相手：#{acchimuite_direction[program_hand]}"
   puts "---------------------------------------------------"
   
   if @janken_result == 1 && player_hand == program_hand
@@ -64,6 +64,7 @@ def acchimuite
     exit
   else 
     puts "じゃんけん・・・"
+    next_game = true
     janken
   end
 end
@@ -74,5 +75,4 @@ while next_game
     next_game = janken
 end 
 
-janken 
 
